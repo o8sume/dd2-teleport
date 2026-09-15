@@ -1,10 +1,8 @@
+**English** | [日本語](README_JA.md)
+
 # Dragon's Dogma 2 - Teleport Mod
 
 A lightweight teleport mod for Dragon's Dogma 2 using REFramework.
-
-> [!WARNING]
-> This mod is currently under development.
-> Features, configuration formats, and compatibility may change without notice.
 
 ## Features
 
@@ -12,24 +10,75 @@ A lightweight teleport mod for Dragon's Dogma 2 using REFramework.
 - Save and use custom locations
 - Optional Seeker's Token locations
 - Optional Golden Trove Beetle locations
-- Configurable hotkeys
+- Configurable teleport hotkeys
+- Teleport window for quick access to registered locations
 
 ## Requirements
 
 - Dragon's Dogma 2
 - REFramework
+- _ScriptCore
 
 ## Installation
 
-Installation instructions will be added before the first release.
+Copy the following files and folders into your REFramework `autorun` directory:
+
+- `teleport.lua`
+- `data/`
+
+The resulting directory structure should look like this:
+
+```text
+reframework/
+└── autorun/
+    ├── teleport.lua
+    └── data/
+```
+
+## Usage
+
+Open the REFramework UI and expand the **Teleport** section to access the mod.
+
+Select a location from **Locations** and press **Teleport** to teleport to that location.
+
+You can also use the teleport window for quick access to predefined locations. By default, press `T` to toggle the teleport window. `F1` through `F12` teleport to the corresponding locations displayed in the window.
+
+Hotkeys can be changed through _ScriptCore's hotkey configuration.
+
+## Custom Locations
+
+Enter a name in the **Name** field and press **Add Custom Location** to save your current position.
+
+Saved custom locations are added to the **Locations** list and can be used in the same way as predefined locations.
+
+Custom locations can be removed from **Delete Custom Locations**.
+
+## Extra Locations
+
+The **Extra Locations** section provides additional teleport destinations for collectibles:
+
+- Seeker's Token locations
+- Golden Trove Beetle locations
+
+These location sets can be enabled or disabled from **Options**.
+
+## Options
+
+- **Load Seeker Stone Locations** — Show or hide Seeker's Token locations.
+- **Load Golden Beetle Locations** — Show or hide Golden Trove Beetle locations.
+
+These options apply to the current game session and are not persisted between restarts.
 
 ## Compatibility
 
-This project is developed and tested against the current Dragon's Dogma 2 / REFramework environment used during development.
+Developed and tested with:
 
-## Status
+- Dragon's Dogma 2 TU3.2
+- REFramework Nightly 01414
+- TDB Version 83
+- ScriptCore 1.2.07
 
-Work in progress. Not yet intended for general use.
+Compatibility with other versions is not guaranteed. Game or REFramework updates may require an update to this mod.
 
 ## License
 
