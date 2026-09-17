@@ -456,13 +456,13 @@ re.on_draw_ui(function()
         imgui.text("Locations")
         imgui.push_item_width(190)
 
-        _, select_location_index = imgui.combo("", select_location_index, location_names)
+        _, select_location_index = imgui.combo("##select_location", select_location_index, location_names)
 
         imgui.same_line()
         add_spacing(1)
         imgui.same_line()
 
-        if imgui.button(" Teleport ") then
+        if imgui.button(" Teleport ##location") then
             local location
 
             if select_location_index <= #locations then
@@ -480,7 +480,7 @@ re.on_draw_ui(function()
 
         imgui.text("Name")
         imgui.push_item_width(190)
-        _, new_custom_location_name = imgui.input_text("\t", new_custom_location_name, 32)
+        _, new_custom_location_name = imgui.input_text("##custom_location_name", new_custom_location_name, 32)
         imgui.pop_item_width()
 
         imgui.same_line()
@@ -501,7 +501,7 @@ re.on_draw_ui(function()
                 add_group_spacing()
 
                 imgui.push_item_width(190)
-                _, select_custom_location_index = imgui.combo("", select_custom_location_index, custom_location_names)
+                _, select_custom_location_index = imgui.combo("##custom_location", select_custom_location_index, custom_location_names)
                 imgui.pop_item_width()
 
                 imgui.same_line()
@@ -525,14 +525,14 @@ re.on_draw_ui(function()
                 add_group_spacing()
 
                 imgui.push_item_width(190)
-                _, select_extra_location_index = imgui.combo("", select_extra_location_index, extra_location_names)
+                _, select_extra_location_index = imgui.combo("##extra_location", select_extra_location_index, extra_location_names)
                 imgui.pop_item_width()
 
                 imgui.same_line()
                 add_spacing(1)
                 imgui.same_line()
 
-                if imgui.button(" Teleport ") then
+                if imgui.button(" Teleport ##extra_location") then
                     teleport(extra_location_positions[select_extra_location_index])
                 end
 
