@@ -478,7 +478,7 @@ re.on_draw_ui(function()
 
         add_group_spacing()
 
-        imgui.text("Name")
+        imgui.text("New Custom Location Name")
         imgui.push_item_width(190)
         _, new_custom_location_name = imgui.input_text("##custom_location_name", new_custom_location_name, 32)
         imgui.pop_item_width()
