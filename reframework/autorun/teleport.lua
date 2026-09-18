@@ -1,7 +1,7 @@
 local MOD_VERSION = "1.0.0"
 local DEFAULT_LANGUAGE = "EN"
 local CUSTOM_LOCATION_PATH = "o8sume/teleport/custom_location.json"
-local SHOW_DEBUG_LOG = true
+local SHOW_DEBUG_LOG = false
 
 local character_manager = sdk.get_managed_singleton("app.CharacterManager")
 if not character_manager then
@@ -235,7 +235,7 @@ end
 
 local function update_custom_location_names()
     
-    log_debug("update_location_names: start")
+    log_debug("update_custom_location_names: start")
 
     custom_location_names = {}
 
@@ -481,13 +481,7 @@ re.on_draw_ui(function()
         imgui.same_line()
 
         if imgui.button(" Teleport ##location") then
-            local location
-
-            if select_location_index <= #locations then
-                location = locations[select_location_index]
-            end
-
-            teleport(location.position)
+            teleport(locations[select_location_index].position)
         end
 
         imgui.pop_item_width()
