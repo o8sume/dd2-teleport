@@ -38,6 +38,7 @@ local golden_trove_beetle_locations = require("data/golden_trove_beetle_location
 local teleport_position_offset = 0x30
 local select_location_index = 1
 local select_custom_location_index = 1
+local select_delete_location_index = 1
 local select_extra_location_index = 1
 
 local location_names = {}
@@ -224,18 +225,25 @@ local function update_location_names()
     log_debug("update_location_names: start")
 
     location_names = {}
-    custom_location_names = {}
 
     for _, location in ipairs(locations) do
         table.insert(location_names, location.name)
     end
 
+    log_debug("update_location_names: successfully.")
+end
+
+local function update_custom_location_names()
+    
+    log_debug("update_location_names: start")
+
+    custom_location_names = {}
+
     for _, location in ipairs(config.custom_location) do
-        table.insert(location_names, location.name)
         table.insert(custom_location_names, location.name)
     end
 
-    log_debug("update_location_names: successfully.")
+    log_debug("update_custom_location_names: successfully.")
 end
 
 local function update_extra_location_names()
@@ -280,10 +288,18 @@ local function update_extra_location_positions()
     log_debug("update_extra_location_positions: successfully.")
 end
 
-load_custom_location_file()
-update_location_names()
-update_extra_location_names()
-update_extra_location_positions()
+local function init()
+    
+    log_debug("init: start")
+
+    load_custom_location_file()
+    update_location_names()
+    update_custom_location_names()
+    update_extra_location_names()
+    update_extra_location_positions()
+
+    log_debug("init: successfully.")
+end
 
 local function create_position(x, y, z)
 
@@ -356,6 +372,8 @@ local function teleport(position)
     ferrystone_flow_controller:gatherTeleportCharactersAndLostDeadPawns()
     ferrystone_flow_controller:activateFlow()
 end
+
+init()
 
 sdk.hook(
     delete_item,
@@ -467,8 +485,6 @@ re.on_draw_ui(function()
 
             if select_location_index <= #locations then
                 location = locations[select_location_index]
-            else
-                location = config.custom_location[select_location_index - #locations]
             end
 
             teleport(location.position)
@@ -486,18 +502,14 @@ re.on_draw_ui(function()
         imgui.same_line()
         if imgui.button("Add Custom Location") and new_custom_location_name ~= "" then
             add_custom_location(new_custom_location_name)
-            update_location_names()
+            update_custom_location_names()
             new_custom_location_name = ""
         end
 
         add_group_spacing()
 
         if #custom_location_names > 0 then
-            if imgui.tree_node("Delete Custom Locations") then
-                add_group_spacing()
-
-                imgui.text("Once deleted, items cannot be restored.")
-
+            if imgui.tree_node("Custom Locations") then
                 add_group_spacing()
 
                 imgui.push_item_width(190)
@@ -505,14 +517,37 @@ re.on_draw_ui(function()
                 imgui.pop_item_width()
 
                 imgui.same_line()
-                if imgui.button("Delete") then
-                    table.remove(config.custom_location, select_custom_location_index)
-                    save_custom_location()
-                    update_location_names()
+                add_spacing(1)
+                imgui.same_line()
 
-                    if select_custom_location_index > #custom_location_names then
-                        select_custom_location_index = 1
+                if imgui.button(" Teleport ##custom_location") then
+                    teleport(config.custom_location[select_custom_location_index].position)
+                end
+
+                if imgui.tree_node("Delete Custom Location") then
+                    add_group_spacing()
+
+                    imgui.text("Once deleted, items cannot be restored.")
+
+                    add_group_spacing()
+
+                    imgui.push_item_width(190)
+                    _, select_delete_location_index = imgui.combo("##delete_location", select_delete_location_index, custom_location_names)
+                    imgui.pop_item_width()
+
+                    imgui.same_line()
+                    if imgui.button("Delete") then
+                        table.remove(config.custom_location, select_delete_location_index)
+                        save_custom_location()
+                        update_custom_location_names()
+
+                        if select_delete_location_index > #custom_location_names then
+                            select_delete_location_index = 1
+                        end
                     end
+
+                    add_spacing(1)
+                    imgui.tree_pop()
                 end
 
                 add_spacing(1)
